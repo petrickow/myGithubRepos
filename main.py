@@ -10,23 +10,20 @@ import http
 ###
 # Getting started with python3
 def main():
-	username = extractArgs()
-	
-	repo_json = repos.collectReposFor(username)
-	
-	reduceData(repo_json)
-
-#	writeToFile(username+'_repos.json')
+	username = extractAndValidateArgs()
+	repo_json = collectReposFor(username)
+	reduced_data =reduceData(repo_json)
+	writeToFile(username+'_repos.json', repo_json)
 
 ### 
 # Ask github for public repos and return as list
-def collectReposFor(self, username):
+def collectReposFor(username):
 	print('*** Collecting public repos, username: ' + username)
 
 	u = urlopen('https://api.github.com/users/'+username+'/repos')
 	resp = json.loads(u.read().decode('utf-8'))
-	#pprint(resp)
-	print(type(resp))
+	#pprint(resp) # if you want to see the result... you don't
+	print('public repos found for ' + username + ':' , len(resp))
 	return resp
 
 
@@ -35,10 +32,6 @@ def collectReposFor(self, username):
 def reduceData(orginial_json):
 	reduced_info = list()
 	current_obj = {}
-
-
-	print(type(orginial_json))
-	print(len(orginial_json))
 
 	return ''
 
@@ -54,15 +47,17 @@ def writeToFile(filename, data):
 
 ### 
 # Reads arguments and tries to find username
-def extractArgs():
+def extractAndValidateArgs():
 	grabUser = False
-	for arg in sys.argv: # Akk, hairy stuff øøøø
+	for arg in sys.argv:
 		if arg == '-u':
 			grabUser = True # read the next as username
 			continue
 		elif grabUser == True:
 			username = arg
 			grabUser = False
+		else:
+			print('Unknown argument "' + arg + '"')
 	print(http.client)
 	try:
 		username
