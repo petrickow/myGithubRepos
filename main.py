@@ -38,9 +38,9 @@ def reduceData(orginial_json):
 ### 
 # Stores data as json-file
 def writeToFile(filename, data):
-	print('*** Writing to file ' + filename)
+	print('*** Writing to results/' + filename)
 
-	with open(filename, 'w') as f:
+	with open('results/' + filename, 'w') as f:
 		json.dump(data, f,indent=4)
 	#print(data)
 
