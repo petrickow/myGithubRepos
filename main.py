@@ -23,11 +23,12 @@ def collectReposFor(username):
 	u = urlopen('https://api.github.com/users/'+username+'/repos')
 	resp = json.loads(u.read().decode('utf-8'))
 	#pprint(resp) # if you want to see the result... you don't
-	print('public repos found for ' + username + ':' , len(resp))
+	print('\tpublic repos found for ' + username + ':' , len(resp))
 	return resp
 
 
-###
+### 
+# TODO
 # Boil the list down to active repos
 def reduceData(orginial_json):
 	reduced_info = list()
@@ -45,11 +46,15 @@ def writeToFile(filename, data):
 	#print(data)
 
 
+def pushToBlog() {
+	#TODO
+}
+
 ### 
 # Reads arguments and tries to find username
 def extractAndValidateArgs():
 	grabUser = False
-	for arg in sys.argv:
+	for arg in sys.argv: ## TODO: skip check on filename
 		if arg == '-u':
 			grabUser = True # read the next as username
 			continue
