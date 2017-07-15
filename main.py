@@ -46,9 +46,10 @@ def writeToFile(filename, data):
 	#print(data)
 
 
-def pushToBlog() {
+def pushToBlog():
 	#TODO
-}
+	print('push stuff to the repo')
+
 
 ### 
 # Reads arguments and tries to find username
