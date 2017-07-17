@@ -10,10 +10,12 @@ import http
 ###
 # Getting started with python3
 def main():
-	username = extractAndValidateArgs()
-	repo_json = collectReposFor(username)
-	reduced_data =reduceData(repo_json)
-	writeToFile(username+'_repos.json', repo_json)
+
+	username = extractAndValidateArgs() # TODO return a list/dict instead
+	repo_json = collectReposFor(username) # TODO check if username is valid
+	reduced_data = reduceData(repo_json) # TODO traverse json and get the interesting bits
+	writeJSONToFile(username+'_repos.json', reduced_data) # TODO write to file and
+	pushToBlog(username+'_repos.json')# TODO upload to github-pages repo
 
 ### 
 # Ask github for public repos and return as list
@@ -22,7 +24,6 @@ def collectReposFor(username):
 
 	u = urlopen('https://api.github.com/users/'+username+'/repos')
 	resp = json.loads(u.read().decode('utf-8'))
-	#pprint(resp) # if you want to see the result... you don't
 	print('\tpublic repos found for ' + username + ':' , len(resp))
 	return resp
 
@@ -31,25 +32,34 @@ def collectReposFor(username):
 # TODO
 # Boil the list down to active repos
 def reduceData(orginial_json):
-	reduced_info = list()
-	current_obj = {}
-
-	return ''
+	print('Extract name and activity, maybe some more')
+	print('list length: {}'.format(len(orginial_json)))
+	reduced_repo_information = [];
+	for entry in orginial_json:
+		reduced_repo_information.append(getRepoDetails(entry));
+		# TODO: Get more info, store the following:
+		## * Language
+		## * Activity
+		## * Last commit date
+		## * ???
+	return reduced_repo_information
 
 ### 
 # Stores data as json-file
-def writeToFile(filename, data):
+def writeJSONToFile(filename, data):
 	print('*** Writing to results/' + filename)
-
 	with open('results/' + filename, 'w') as f:
 		json.dump(data, f,indent=4)
-	#print(data)
 
 
-def pushToBlog():
-	#TODO
-	print('push stuff to the repo')
+def pushToBlog(filename):
+	# TODO:
+	print('push the file \'' + filename + '\' stuff to the repo')
 
+
+def getRepoDetails(entry):
+	# Create empty dict, save the useful stuff
+	return({'name': entry['name'], 'language': entry['language'], 'description': entry['description']})
 
 ### 
 # Reads arguments and tries to find username
@@ -64,7 +74,6 @@ def extractAndValidateArgs():
 			grabUser = False
 		else:
 			print('Unknown argument "' + arg + '"')
-	print(http.client)
 	try:
 		username
 	except NameError:
