@@ -26,7 +26,23 @@ def collectReposFor(username):
 	resp = json.loads(u.read().decode('utf-8'))
 	print('\tpublic repos found for ' + username + ':' , len(resp))
 	return resp
-
+######## TODO:
+#		Find a suitable GQL client to test the v4 api
+#{
+#	query {
+#		user(login: "petrickow" ) {
+#			repositories(privacy:PUBLIC, first: 40) {
+#				pageInfo {
+#					hasNextPage
+#				}
+#				nodes {
+#					name,
+#					description
+#				}
+#			}
+#		}
+#	}
+#}
 
 ### 
 # TODO
@@ -40,9 +56,10 @@ def reduceData(orginial_json):
 		# TODO: Get more info, store the following:
 		## * Language
 		## * Activity
-		## * Last commit date
+		## * Last commit date... where did I see this? 
 		## * ???
 	return reduced_repo_information
+
 
 ### 
 # Stores data as json-file
@@ -54,7 +71,7 @@ def writeJSONToFile(filename, data):
 
 def pushToBlog(filename):
 	# TODO:
-	print('push the file \'' + filename + '\' stuff to the repo')
+	print('push the file \'' + filename + '\' to the blog repo')
 
 
 def getRepoDetails(entry):
